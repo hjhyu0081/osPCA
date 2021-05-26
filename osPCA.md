@@ -38,7 +38,7 @@ group<-c(rep(1,30),rep(2,30),rep(3,30),rep(4,30),rep(5,30))
 ```
 
 
-## PCA and os-PCA
+## os-PCA using rice data
 
 ### `scatterplot_mean` and `con_pca`
 
@@ -48,20 +48,6 @@ It is well known that `prcomp` can be used to perform PCA. We provide a function
 ```r
 res_orgPCA <- prcomp(data, center = T, scale = T)
 scatterplot_mean(res_orgPCA$x, group = group, PC = c(1,2))
-```
-
-```
-## Warning: `funs()` was deprecated in dplyr 0.8.0.
-## Please use a list of either functions or lambdas: 
-## 
-##   # Simple named list: 
-##   list(mean = mean, median = median)
-## 
-##   # Auto named with `tibble::lst()`: 
-##   tibble::lst(mean, median)
-## 
-##   # Using lambdas
-##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 ```
 
 ![](osPCA_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
