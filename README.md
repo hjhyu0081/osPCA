@@ -9,4 +9,4 @@ remotes::install_github("hjhyu0081/osPCA@main")
 ```
 
 ## A basic example
-We analyze rice data to perform os-PCA. For a detail, open osPCA.md
+We analyze rice data to perform os-PCA. For a detail, click osPCA.md
