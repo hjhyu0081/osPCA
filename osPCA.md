@@ -12,23 +12,12 @@ output:
 ## Introduction
 
 This module is to introduce a basic example to use os-PCA procedure.  
-To begin with, you may require several other packages to perform our own package. Install those packages if needed.
+To begin with, install our package by executing this simple code.
 
 ```r
 remotes::install_github("hjhyu0081/osPCA@main")
 ```
-
-```
-##          checking for file 'C:\Users\Public\Documents\ESTsoft\CreatorTemp\RtmpgZvKjO\remotes53647e4a24c5\hjhyu0081-osPCA-5465340/DESCRIPTION' ...  v  checking for file 'C:\Users\Public\Documents\ESTsoft\CreatorTemp\RtmpgZvKjO\remotes53647e4a24c5\hjhyu0081-osPCA-5465340/DESCRIPTION'
-##       -  preparing 'osPCA': (364ms)
-##    checking DESCRIPTION meta-information ...  v  checking DESCRIPTION meta-information
-##       -  checking for LF line-endings in source and make files and shell scripts
-##       -  checking for empty or unneeded directories
-##       -  looking to see if a 'data/datalist' file should be added
-##       -  building 'osPCA_0.1.0.tar.gz'
-##      
-## 
-```
+You may require several other packages to perform our own package. Install those packages if needed.
 
 ```r
 require(osPCA)
@@ -76,7 +65,7 @@ res_orgPCA <- prcomp(data, center = T, scale = T)
 scatterplot_mean(res_orgPCA$x, group = group, PC = c(1,2))
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](osPCA_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 The function `con_pca` offers the results, score and basis for os-PCA, while the `prcomp` provides them for PCA. The first argument of the function `con_pca` should be numerical datasets, and the second argument should be 'constrained matrix' $A$. Finally, the third argument should be the number of components which is chosen by screeplot. 
 
@@ -86,7 +75,7 @@ res_conPCA <- con_pca(data = data, A = making_amat(group), q = 7)
 scatterplot_mean(res_conPCA$X, group = group, PC = c(1,2))
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](osPCA_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 These are screeplot code lines. As stated in our paper in Section 3.2, the screeplot function for os-PCA is pretty much similar with that of PCA  Therefore, we recommend you draw screeplot for PCA to choose the number of PCs for os-PCA to avoid numerically burdensome work. Here is a simple example for this work. Besides you can make your own useful screeplot function.
 
@@ -107,4 +96,4 @@ We provide a function `scoreplot` (see Figure 3 in our paper). Two pairs of PC s
 scoreplot(data = data, group = group, q = 7, PC = c(1,2))
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](osPCA_files/figure-html/unnamed-chunk-7-1.png)<!-- -->

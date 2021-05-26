@@ -14,9 +14,12 @@ require(osPCA)
 ## Introduction
 
 This module is to introduce a basic example to use os-PCA procedure.  
-To begin with, you may require several other packages to perform our own package. Install those packages if needed.
-```{r warning=FALSE, message =FALSE}
+To begin with, install our package by executing this simple code.
+```{r eval = FALSE, message = FALSE}
 remotes::install_github("hjhyu0081/osPCA@main")
+```
+You may require several other packages to perform our own package. Install those packages if needed.
+```{r warning=FALSE, message =FALSE}
 require(osPCA)
 require(dplyr)
 require(ggplot2)
