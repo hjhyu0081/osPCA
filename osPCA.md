@@ -1,12 +1,12 @@
 ---
 title: "os-PCA"
-author: "HyeongJin Hyun"
+author: "Hyeong Jin Hyun"
 date: "5/25/2021"
 output: 
   html_document: 
     keep_md: true
 ---
-
+# os-PCA
 
 
 ## Introduction
@@ -14,14 +14,14 @@ output:
 This module is to introduce a basic example to use os-PCA procedure. To begin with, download the rice dataset from https://github.com/hjhyu0081/hjhyuntest and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
 
 
-You may require several other packages to perform our package. Install those packages if needed.
+You may require several other packages to perform our own package. Install those packages if needed.
 
 ```r
+remotes::install_github("hjhyu0081/osPCA@main")
+require(osPCA)
 require(dplyr)
 require(ggplot2)
 require(quadprog)
-
-require(osPCA)
 ```
 
 
