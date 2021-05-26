@@ -9,4 +9,4 @@ remotes::install_github("hjhyu0081/osPCA@main")
 ```
 
 ## A basic example
-For a specific example to use os-PCA, open test.md
+For a specific example to use os-PCA, open osPCA_example.md
