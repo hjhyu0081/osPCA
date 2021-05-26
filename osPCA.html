@@ -373,15 +373,59 @@ summary {
 <h1>os-PCA</h1>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>This module is to introduce a basic example to use os-PCA procedure. To begin with, download the rice dataset from <a href="https://github.com/hjhyu0081/hjhyuntest" class="uri">https://github.com/hjhyu0081/hjhyuntest</a> and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.</p>
-<p>You may require several other packages to perform our own package. Install those packages if needed.</p>
-<pre class="r"><code>remotes::install_github(&quot;hjhyu0081/osPCA@main&quot;)
-require(osPCA)
+<p>This module is to introduce a basic example to use os-PCA procedure.<br />
+To begin with, you may require several other packages to perform our own package. Install those packages if needed.</p>
+<pre class="r"><code>remotes::install_github(&quot;hjhyu0081/osPCA@main&quot;)</code></pre>
+<pre><code>##   
+  
+  
+   checking for file &#39;C:\Users\Public\Documents\ESTsoft\CreatorTemp\RtmpgZvKjO\remotes53647e4a24c5\hjhyu0081-osPCA-5465340/DESCRIPTION&#39; ...
+  
+v  checking for file &#39;C:\Users\Public\Documents\ESTsoft\CreatorTemp\RtmpgZvKjO\remotes53647e4a24c5\hjhyu0081-osPCA-5465340/DESCRIPTION&#39;
+## 
+  
+  
+  
+-  preparing &#39;osPCA&#39;: (364ms)
+##    checking DESCRIPTION meta-information ...
+  
+v  checking DESCRIPTION meta-information
+## 
+  
+  
+  
+-  checking for LF line-endings in source and make files and shell scripts
+## 
+  
+  
+  
+-  checking for empty or unneeded directories
+## 
+  
+  
+  
+-  looking to see if a &#39;data/datalist&#39; file should be added
+## 
+  
+  
+  
+-  building &#39;osPCA_0.1.0.tar.gz&#39;
+## 
+  
+   
+## </code></pre>
+<pre class="r"><code>require(osPCA)
 require(dplyr)
 require(ggplot2)
 require(quadprog)</code></pre>
+<p>Next, download the rice dataset from <a href="https://github.com/hjhyu0081/hjhyuntest" class="uri">https://github.com/hjhyu0081/hjhyuntest</a> and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.</p>
 <pre class="r"><code>data &lt;- scale(t(read.csv(&quot;./data/rice.csv&quot;, encoding = &quot;UTF-8&quot;, as.is=T)[,-1]))
 variables &lt;- read.csv(&quot;./data/rice.csv&quot;)[,1]</code></pre>
+<p>If you do not want to download it to your computer, you may directly import the data from github.</p>
+<pre class="r"><code>library (readr)
+urlfile=&quot;https://raw.githubusercontent.com/hjhyu0081/osPCA/main/data/rice.csv&quot;
+data &lt;- scale(t(read.csv(url(urlfile), encoding = &quot;UTF-8&quot;, as.is=T)[,-1]))
+variables &lt;- read.csv(url(urlfile))[,1]</code></pre>
 <p>Also, it is essential to set the group variables according to the group. The group variables are recommended to set by numeric varaibles.</p>
 <pre class="r"><code>group&lt;-c(rep(1,30),rep(2,30),rep(3,30),rep(4,30),rep(5,30))</code></pre>
 </div>

@@ -13,10 +13,8 @@ require(osPCA)
 
 ## Introduction
 
-This module is to introduce a basic example to use os-PCA procedure. To begin with, download the rice dataset from https://github.com/hjhyu0081/hjhyuntest and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
-
-
-You may require several other packages to perform our own package. Install those packages if needed.
+This module is to introduce a basic example to use os-PCA procedure.  
+To begin with, you may require several other packages to perform our own package. Install those packages if needed.
 ```{r warning=FALSE, message =FALSE}
 remotes::install_github("hjhyu0081/osPCA@main")
 require(osPCA)
@@ -25,10 +23,22 @@ require(ggplot2)
 require(quadprog)
 ```
 
+
+Next, download the rice dataset from https://github.com/hjhyu0081/hjhyuntest and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
+
 ```{r import_data}
 data <- scale(t(read.csv("./data/rice.csv", encoding = "UTF-8", as.is=T)[,-1]))
 variables <- read.csv("./data/rice.csv")[,1]
 ```
+
+If you do not want to download it to your computer, you may directly import the data from github.
+```{r eval=FALSE, message = FALSE}
+library (readr)
+urlfile="https://raw.githubusercontent.com/hjhyu0081/osPCA/main/data/rice.csv"
+data <- scale(t(read.csv(url(urlfile), encoding = "UTF-8", as.is=T)[,-1]))
+variables <- read.csv(url(urlfile))[,1]
+```
+
 
 Also, it is essential to set the group variables according to the group. The group variables are recommended to set by numeric varaibles.
 
