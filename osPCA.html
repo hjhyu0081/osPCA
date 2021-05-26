@@ -372,6 +372,12 @@ summary {
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>This module is to introduce a basic example to use os-PCA procedure. To begin with, download the rice dataset from <a href="https://github.com/hjhyu0081/hjhyuntest" class="uri">https://github.com/hjhyu0081/hjhyuntest</a> and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.</p>
+<p>You may require several other packages to perform our package. Install those packages if needed.</p>
+<pre class="r"><code>require(dplyr)
+require(ggplot2)
+require(quadprog)
+
+require(osPCA)</code></pre>
 <pre class="r"><code>data &lt;- scale(t(read.csv(&quot;./data/rice.csv&quot;, encoding = &quot;UTF-8&quot;, as.is=T)[,-1]))
 variables &lt;- read.csv(&quot;./data/rice.csv&quot;)[,1]</code></pre>
 <p>Also, it is essential to set the group variables according to the group. The group variables are recommended to set by numeric varaibles.</p>

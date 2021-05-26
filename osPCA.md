@@ -14,6 +14,17 @@ output:
 This module is to introduce a basic example to use os-PCA procedure. To begin with, download the rice dataset from https://github.com/hjhyu0081/hjhyuntest and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
 
 
+You may require several other packages to perform our package. Install those packages if needed.
+
+```r
+require(dplyr)
+require(ggplot2)
+require(quadprog)
+
+require(osPCA)
+```
+
+
 ```r
 data <- scale(t(read.csv("./data/rice.csv", encoding = "UTF-8", as.is=T)[,-1]))
 variables <- read.csv("./data/rice.csv")[,1]
@@ -53,7 +64,7 @@ scatterplot_mean(res_orgPCA$x, group = group, PC = c(1,2))
 ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](osPCA_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 The function `con_pca` offers the results, score and basis for os-PCA, while the `prcomp` provides them for PCA. The first argument of the function `con_pca` should be numerical datasets, and the second argument should be 'constrained matrix' $A$. Finally, the third argument should be the number of components which is chosen by screeplot. 
 
@@ -63,7 +74,7 @@ res_conPCA <- con_pca(data = data, A = making_amat(group), q = 7)
 scatterplot_mean(res_conPCA$X, group = group, PC = c(1,2))
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](osPCA_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 These are screeplot code lines. As stated in our paper in Section 3.2, the screeplot function for os-PCA is pretty much similar with that of PCA  Therefore, we recommend you draw screeplot for PCA to choose the number of PCs for os-PCA to avoid numerically burdensome work. Here is a simple example for this work. Besides you can make your own useful screeplot function.
 
@@ -84,4 +95,4 @@ We provide a function `scoreplot` (see Figure 3 in our paper). Two pairs of PC s
 scoreplot(data = data, group = group, q = 7, PC = c(1,2))
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](osPCA_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
