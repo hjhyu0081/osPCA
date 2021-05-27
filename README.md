@@ -9,7 +9,7 @@ remotes::install_github("hjhyu0081/osPCA@main")
 ```
 
 ## osPCA package
-For an example to perform os-PCA, we analyze rice data which is the real data example for our paper. If you want to download this rice data, put these code lines into your R console. Note that the first column is the name of each variable.
+For an example to perform os-PCA, we analyze the rice data which is used in Section 4 real data example of our paper. If you want to download this rice data, put these code lines into your R console. Note that the first column of this data is the name of each variable.
 ```
 # install.packages("readr")
 library (readr)
@@ -17,5 +17,5 @@ urlfile="https://raw.githubusercontent.com/hjhyu0081/osPCA/main/data/rice.csv"
 data <- t(read.csv(url(urlfile), encoding = "UTF-8", as.is=T))
 ```
 
-Main functions for this package are `con_pca`, `scatterplot_mean`, and `scoreplot`. For more detail, open osPCA.md in this directory.
+Main functions for osPCA package are `con_pca`, `scatterplot_mean`, and `scoreplot`. For more detail, open osPCA.md in this directory.
 
