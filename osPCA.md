@@ -8,7 +8,6 @@ output:
 ---
 # os-PCA
 
-
 ## Introduction
 
 This module is to introduce a basic example to use os-PCA procedure.  
@@ -22,12 +21,14 @@ You may require several other packages to perform our own package. Install those
 ```r
 require(osPCA)
 require(dplyr)
-require(ggplot2)
 require(quadprog)
+require(ggplot2)
+require(ggfittext)
+require(gridExtra)
 ```
 
 
-Next, download the rice dataset from https://github.com/hjhyu0081/hjhyuntest and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
+Next, download the rice dataset from https://github.com/hjhyu0081/osPCA and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
 
 
 ```r
@@ -89,11 +90,65 @@ ggplot(data = data.frame(lambda = res_orgPCA$sdev^2, i = 1:length(res_orgPCA$sde
 
 ![](osPCA_files/figure-html/screeplot-1.png)<!-- -->
 
-### `scoreplot`
-We provide a function `scoreplot` (see Figure 3 in our paper). Two pairs of PC scores are on the plots. The gray dots display scores that are obtained from os-PCA. The black dots and red dots are from the original PCA and the rotated PC, respectively. 
+The followings are for Figure 3 and Figure 4.
 
 ```r
-scoreplot(data = data, group = group, q = 7, PC = c(1,2))
+for(method in c("orgPCA","conPCA")){
+  for(i in 1:4){
+    for(j in (i+1):5){
+      if(method == "orgPCA"){
+        tempplot <- scatterplot_mean(score = res_orgPCA$x, group = group, PC = c(i,j)) + theme_bw() +
+          theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position = "none")
+        assign(paste0("g",i,j,"_",method), tempplot)
+      }else{
+        tempplot <- scatterplot_mean(score = get(paste0("res_",method))$X, group = group, PC = c(i,j)) + theme_bw() +
+          theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position = "none")
+        assign(paste0("g",i,j,"_",method), tempplot)
+      }
+    }
+  }
+}
 ```
 
-![](osPCA_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
+```r
+for(method in c("orgPCA","conPCA")){
+  assign(paste0("graphs_",method),list())
+  for(i in 1:4){
+    for(j in (i+1):5){
+      assign(paste0("graphs_",method), append(get(paste0("graphs_",method)), list(get(paste0("g",i,j,"_",method)))))
+    }
+  }
+}
+```
+
+
+
+To implement the following code lines, you might have an error message to implement the following code. To resolve this, you are recommended to execute the following code.
+
+
+```r
+source("./R/osPCA.R")
+```
+
+
+```r
+org <- pairs(graphs_orgPCA)
+```
+
+![](osPCA_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+
+```r
+con <- pairs(graphs_conPCA)
+```
+
+![](osPCA_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+
+### `scoreplot`
+We provide a function `scoreplot` (Figure 5). Two pairs of PC scores are presented on the plots. The gray dots display scores that are obtained from os-PCA. The black dots and red dots are from the original PCA and the rotated PC, respectively. The following codes will present all pairs of PC scores. 
+
+```r
+scoreplot(data = data, group = group, q = 7)
+```

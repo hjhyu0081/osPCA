@@ -7,9 +7,6 @@ output:
     keep_md: true
 ---
 # os-PCA
-```{r setup, include=FALSE}
-require(osPCA)
-```
 
 ## Introduction
 
@@ -22,19 +19,21 @@ You may require several other packages to perform our own package. Install those
 ```{r warning=FALSE, message =FALSE}
 require(osPCA)
 require(dplyr)
-require(ggplot2)
 require(quadprog)
+require(ggplot2)
+require(ggfittext)
+require(gridExtra)
 ```
 
 
-Next, download the rice dataset from https://github.com/hjhyu0081/hjhyuntest and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
+Next, download the rice dataset from https://github.com/hjhyu0081/osPCA and set appropriate directory to analyze this datasets. The numerical data and the variables are saved and assigned separately just for convenience.
 
 ```{r import_data}
 data <- scale(t(read.csv("./data/rice.csv", encoding = "UTF-8", as.is=T)[,-1]))
 variables <- read.csv("./data/rice.csv")[,1]
 ```
 
-If you do not want to download it to your computer, you may directly import the data from github.
+If you do not want to download it to your computer, you may directly import the data from my github.
 ```{r eval=FALSE, message = FALSE}
 library (readr)
 urlfile="https://raw.githubusercontent.com/hjhyu0081/osPCA/main/data/rice.csv"
@@ -54,7 +53,7 @@ group<-c(rep(1,30),rep(2,30),rep(3,30),rep(4,30),rep(5,30))
 
 ### `scatterplot_mean` and `con_pca`
 
-It is well known that `prcomp` can be used to perform PCA. We provide a function `scatterplot_mean` that allows to draw scatterplot of principal components according to the group, in which each $x$ and $y$ axes can be selected by setting the third arguments. As following, the first argument of this function should be the score object of `prcomp` function and the second argument should be group variables that we assigned before.
+It is well known that `prcomp` can be used to perform PCA. We provide a function `scatterplot_mean` that allows to draw the scatterplot of principal components according to the group, in which each $x$ and $y$ axes can be selected by setting the third arguments. As following, the first argument of this function should be the score object of `prcomp` function and the second argument should be assigned group variables.
 
 ```{r warning=FALSE, message =FALSE}
 res_orgPCA <- prcomp(data, center = T, scale = T)
@@ -68,7 +67,7 @@ res_conPCA <- con_pca(data = data, A = making_amat(group), q = 7)
 scatterplot_mean(res_conPCA$X, group = group, PC = c(1,2))
 ```
 
-These are screeplot code lines. As stated in our paper in Section 3.2, the screeplot function for os-PCA is pretty much similar with that of PCA  Therefore, we recommend you draw screeplot for PCA to choose the number of PCs for os-PCA to avoid numerically burdensome work. Here is a simple example for this work. Besides you can make your own useful screeplot function.
+The followings are screeplot code lines. As stated in our paper in Section 3.2, the screeplot function for os-PCA is pretty much similar with that of PCA. Therefore, the screeplot of the os-PCA to choose the number of PCs can be substituted with that of PCA to avoid numerically burdensome work. Here is a simple example for this work. Besides you can make your own useful screeplot function.
 
 ### Screeplot
 ```{r screeplot}
@@ -77,8 +76,53 @@ ggplot(data = data.frame(lambda = res_orgPCA$sdev^2, i = 1:length(res_orgPCA$sde
   geom_point(aes(x = i, y = lambda), size = 0.3)
 ```
 
-### `scoreplot`
-We provide a function `scoreplot` (see Figure 3 in our paper). Two pairs of PC scores are on the plots. The gray dots display scores that are obtained from os-PCA. The black dots and red dots are from the original PCA and the rotated PC, respectively. 
+The following codes are for Figure 3 and Figure 4. Figure 3 is the group means of PC scores from the original PCA of the rice data and Figure 4 is that from the os PCA.
 ```{r}
-scoreplot(data = data, group = group, q = 7, PC = c(1,2))
+for(method in c("orgPCA","conPCA")){
+  for(i in 1:4){
+    for(j in (i+1):5){
+      if(method == "orgPCA"){
+        tempplot <- scatterplot_mean(score = res_orgPCA$x, group = group, PC = c(i,j)) + theme_bw() +
+          theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position = "none")
+        assign(paste0("g",i,j,"_",method), tempplot)
+      }else{
+        tempplot <- scatterplot_mean(score = get(paste0("res_",method))$X, group = group, PC = c(i,j)) + theme_bw() +
+          theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position = "none")
+        assign(paste0("g",i,j,"_",method), tempplot)
+      }
+    }
+  }
+}
+```
+
+```{r}
+for(method in c("orgPCA","conPCA")){
+  assign(paste0("graphs_",method),list())
+  for(i in 1:4){
+    for(j in (i+1):5){
+      assign(paste0("graphs_",method), append(get(paste0("graphs_",method)), list(get(paste0("g",i,j,"_",method)))))
+    }
+  }
+}
+```
+
+To implement the following code lines, you might have an error message to implement the following code. To resolve this, you are recommended to execute the following code. To do this, you might need to find osPCA.R in my github and download it in your apprpriate directory.
+
+```{r warning=FALSE, message =FALSE}
+source("./R/osPCA.R")
+```
+
+```{r}
+org <- pairs(graphs_orgPCA)
+```
+
+```{r}
+con <- pairs(graphs_conPCA)
+```
+
+
+### `scoreplot`
+We provide a function `scoreplot` (Figure 5). Two pairs of PC scores are presented on the plots. The gray dots display scores that are obtained from os-PCA. The black dots and red dots are from the original PCA and the rotated PC, respectively. The following codes will present all pairs of PC scores. 
+```{r eval=FALSE, message = FALSE}
+scoreplot(data = data, group = group, q = 7)
 ```
