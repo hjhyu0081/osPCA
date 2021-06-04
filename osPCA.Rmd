@@ -120,9 +120,14 @@ org <- pairs(graphs_orgPCA)
 con <- pairs(graphs_conPCA)
 ```
 
+You can see that the score of the osPCA is ordered according to the group after the os-PCA procedure. 
 
 ### `scoreplot`
-We provide a function `scoreplot` (Figure 5). Two pairs of PC scores are presented on the plots. The gray dots display scores that are obtained from os-PCA. The black dots and red dots are from the original PCA and the rotated PC, respectively. The following codes will present all pairs of PC scores. 
-```{r eval=FALSE, message = FALSE}
-scoreplot(data = data, group = group, q = 7)
+We provide a function `scoreplot` (Figure 5). Two pairs of PC scores are presented on the plots. The gray dots display scores that are obtained from os-PCA. The black dots and red dots are from the original PCA and the rotated PC, respectively. `scoreplot` function will provide the all pairs of PC scores. The following codes will just present the 1st vs 2nd and 1st vs 3rd PC scores. 
+```{r message = FALSE}
+scoreplotlist<-scoreplot(data = data, group = group, q = 7)
+scoreplotlist[[1]]
+```
+```{r message = FALSE}
+scoreplotlist[[2]]
 ```
